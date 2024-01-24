@@ -9,19 +9,16 @@ export default function App() {
   const [users, setUsers] = useState([]);
   const [totalPage, setTotalPage] = useState(1);
   const [isLoad, setIsLoad] = useState(false);
+  const [isActiv, setIsActiv] = useState(true);
 
-  const BASE_URL = "https://api.github.com/search/users?";
-
-  const handleSearch = (page) => {
+  const handleSearch = (page = 1, order = "desc") => {
     setIsLoad(true);
     fetch(
-      `${BASE_URL}q=` +
-        encodeURIComponent(`${query} in:login sort:repositories`) +
-        `&page=${page}`
+      `https://api.github.com/search/users?q=${query}&page=${page}&sort=repositories&order=${order}`
     )
       .then((res) => {
         if (!res.ok && res.status === 403) {
-          throw new Error("превышено количество запросов");
+          throw new Error("превышено количество запросов, попробуйте позже");
         }
         return res.json();
       })
@@ -63,12 +60,28 @@ export default function App() {
         }}
       />
 
-      <button onClick={() => handleSearch(1)}>Search</button>
+      <button onClick={() => handleSearch()}>Search</button>
       {users.length !== 0 && (
         <div className="filter">
           <p>Repositiries:</p>
-          <button onClick={() => handleSearch()}>по возрастанию</button>
-          <button onClick={() => handleSearch()}>по убыванию</button>
+          <button
+            className={!isActiv ? "activ" : ""}
+            onClick={() => {
+              setIsActiv(false);
+              handleSearch(page, "asc");
+            }}
+          >
+            по возрастанию
+          </button>
+          <button
+            className={isActiv ? "activ" : ""}
+            onClick={() => {
+              setIsActiv(true);
+              handleSearch(page, "desc");
+            }}
+          >
+            по убыванию
+          </button>
         </div>
       )}
       <ul>
