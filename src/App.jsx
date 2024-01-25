@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   Filter,
@@ -22,6 +22,15 @@ export const App = () => {
   const [isLoad, setIsLoad] = useState(false);
   const [activ, setactiv] = useState(true);
   const [order, setOrdrer] = useState("desc");
+  const [isDisable, setIsDisable] = useState(true);
+
+  useEffect(() => {
+    if (query?.length !== 0) {
+      setIsDisable(false);
+    } else {
+      setIsDisable(true);
+    }
+  }, [query]);
 
   const handleSearch = (page = 1, order = "desc") => {
     setIsLoad(true);
@@ -74,6 +83,7 @@ export const App = () => {
       />
 
       <button
+        style={isDisable ? { color: "#999999", pointerEvents: "none" } : {}}
         onClick={() => {
           setPage(1);
           setactiv(true);
