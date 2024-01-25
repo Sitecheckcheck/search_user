@@ -1,15 +1,27 @@
 import React from "react";
 import { useState } from "react";
+import {
+  Filter,
+  Activ,
+  Loading,
+  Pagination,
+  AppStyle,
+  Input,
+  Label,
+  FilterTitle,
+  FilterButtons,
+} from "./app.styled";
 import { ItemUser } from "./ItemUser";
-import "./index.css";
+import { GlobalStyle } from "./globalStyles";
 
-export default function App() {
+export const App = () => {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [users, setUsers] = useState([]);
   const [totalPage, setTotalPage] = useState(1);
   const [isLoad, setIsLoad] = useState(false);
-  const [isActiv, setIsActiv] = useState(true);
+  const [activ, setactiv] = useState(true);
+  const [order, setOrdrer] = useState("desc");
 
   const handleSearch = (page = 1, order = "desc") => {
     setIsLoad(true);
@@ -35,23 +47,24 @@ export default function App() {
   const handlePrev = () => {
     if (page !== 1) {
       setPage(page - 1);
-      handleSearch(page - 1);
+      handleSearch(page - 1, order);
     }
   };
 
   const handleNext = () => {
     if (page !== totalPage) {
       setPage(page + 1);
-      handleSearch(page + 1);
+      handleSearch(page + 1, order);
     }
   };
 
   return isLoad ? (
-    <h1 className="loading">Loading...</h1>
+    <Loading>Loading...</Loading>
   ) : (
-    <div className="App">
-      <label htmlFor="site-search">Search the user:</label>
-      <input
+    <AppStyle>
+      <GlobalStyle />
+      <Label htmlFor="site-search">Search the user:</Label>
+      <Input
         type="search"
         id="site-search"
         name="q"
@@ -60,29 +73,41 @@ export default function App() {
         }}
       />
 
-      <button onClick={() => handleSearch()}>Search</button>
+      <button
+        onClick={() => {
+          setPage(1);
+          setactiv(true);
+          handleSearch();
+        }}
+      >
+        Search
+      </button>
       {users.length !== 0 && (
-        <div className="filter">
-          <p>Repositiries:</p>
-          <button
-            className={!isActiv ? "activ" : ""}
-            onClick={() => {
-              setIsActiv(false);
-              handleSearch(page, "asc");
-            }}
-          >
-            по возрастанию
-          </button>
-          <button
-            className={isActiv ? "activ" : ""}
-            onClick={() => {
-              setIsActiv(true);
-              handleSearch(page, "desc");
-            }}
-          >
-            по убыванию
-          </button>
-        </div>
+        <Filter>
+          <FilterTitle>Repositiries:</FilterTitle>
+          <FilterButtons>
+            <Activ
+              $activ={!activ}
+              onClick={() => {
+                setactiv(false);
+                setOrdrer("asc");
+                handleSearch(page, "asc");
+              }}
+            >
+              по возрастанию
+            </Activ>
+            <Activ
+              $activ={activ}
+              onClick={() => {
+                setactiv(true);
+                setOrdrer("desc");
+                handleSearch(page, "desc");
+              }}
+            >
+              по убыванию
+            </Activ>
+          </FilterButtons>
+        </Filter>
       )}
       <ul>
         {users?.map((el) => (
@@ -90,14 +115,14 @@ export default function App() {
         ))}
       </ul>
       {users.length !== 0 && (
-        <div className="pagination">
-          <button onClick={handlePrev}>prev</button>
+        <Pagination>
+          <button onClick={() => handlePrev()}>prev</button>
           <p>
             {page} from {totalPage}
           </p>
-          <button onClick={handleNext}>next</button>
-        </div>
+          <button onClick={() => handleNext()}>next</button>
+        </Pagination>
       )}
-    </div>
+    </AppStyle>
   );
-}
+};

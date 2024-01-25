@@ -1,7 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import "./index.css";
 import format from "date-fns/format";
+import {
+  UserInfoBox,
+  ItemUserInfo,
+  UserInfo,
+  ItemUserStyle,
+  AvatarUser,
+} from "./itemUser.styled";
 
 export const ItemUser = ({ item }) => {
   const [isShow, setIsShow] = useState(false);
@@ -18,21 +24,19 @@ export const ItemUser = ({ item }) => {
   };
 
   return isLoad ? (
-    <div className="userInfoBox">
+    <UserInfoBox>
       <p>Loading...</p>
-    </div>
+    </UserInfoBox>
   ) : isShow ? (
-    <div className="userInfoBox">
-      <div onClick={handleShowUser} className="itemUserInfo">
-        {item.login}
-      </div>
-      <img src={item.avatar_url} className="avatarUser" alt="avatar"></img>
-      <p className="userInfo">repositores: {userInfo.public_repos}</p>
-      <p className="userInfo">registrated at {format(new Date(userInfo.created_at), "dd.MM.yyyy")}</p>
-    </div>
+    <UserInfoBox>
+      <ItemUserInfo onClick={handleShowUser}>{item.login}</ItemUserInfo>
+      <AvatarUser src={item.avatar_url} alt="avatar"></AvatarUser>
+      <UserInfo>repositores: {userInfo.public_repos}</UserInfo>
+      <UserInfo>
+        registrated at {format(new Date(userInfo.created_at), "dd.MM.yyyy")}
+      </UserInfo>
+    </UserInfoBox>
   ) : (
-    <li onClick={handleShowUser} className="itemUser">
-      {item.login}
-    </li>
+    <ItemUserStyle onClick={handleShowUser}>{item.login}</ItemUserStyle>
   );
 };
