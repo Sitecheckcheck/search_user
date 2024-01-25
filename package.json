@@ -2,7 +2,7 @@
   "name": "search_user",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://robzarel.github.io/gh-pages-demo",
+  "homepage": "https://sitecheckcheck.github.io/search_user/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
