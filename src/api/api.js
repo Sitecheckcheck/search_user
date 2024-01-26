@@ -11,7 +11,7 @@ export const geAboutUser = async (login) => {
 
 export const getUsers = async (query, page = 1, order = 'desc') => {
     const res = await fetch(
-        `https://api.github.com/search/users?q=${query}&page=${page}&sort=repositories&order=${order}`,
+        `https://api.github.com/search/users?q=${encodeURIComponent(`${query} in:login`)}&page=${page}&sort=repositories&order=${order}`,
     )
 
     if (!res.ok && res.status === 403) {

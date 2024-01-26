@@ -37,6 +37,7 @@ export const App = () => {
         setIsLoad(true)
         try {
             const data = await getUsers(query, page, order)
+            console.log(data)
             setUsers(data.items)
             setTotalPage(Math.ceil(data.total_count / 30))
             setIsLoad(false)
@@ -44,6 +45,7 @@ export const App = () => {
             alert(error)
         } finally {
             setIsLoad(false)
+            setIsDisable(true)
         }
     }
 
