@@ -1,0 +1,23 @@
+export const geAboutUser = async (login) => {
+    let data
+    const res = await fetch(`https://api.github.com/users/${login}`)
+    if (!res.ok) {
+        throw new Error('ошибка сервера')
+    }
+    data = await res.json()
+
+    return data
+}
+
+export const getUsers = async (query, page = 1, order = 'desc') => {
+    const res = await fetch(
+        `https://api.github.com/search/users?q=${query}&page=${page}&sort=repositories&order=${order}`,
+    )
+
+    if (!res.ok && res.status === 403) {
+        throw new Error('превышено количество запросов, попробуйте позже')
+    }
+    const data = await res.json()
+
+    return data
+}
