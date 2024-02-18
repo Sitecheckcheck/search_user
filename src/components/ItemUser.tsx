@@ -8,18 +8,20 @@ import {
     ItemUserStyle,
     AvatarUser,
 } from './itemUser.styled'
-import { geAboutUser } from '../api/api'
+import { getAboutUser } from '../api/api'
 
-export const ItemUser = ({ item }: any) => {
-    const [isShow, setIsShow] = useState(false)
+interface ItemUserProps {
+    item: any
+}
+export const ItemUser = ({ item }: ItemUserProps) => {
+    const [isShow, setIsShow] = useState<boolean>(false)
     const [userInfo, setUserInfo] = useState<any>()
     const [isLoad, setIsLoad] = useState(false)
-
     const handleShowUser = async () => {
         if (!isShow) {
             setIsLoad(true)
             try {
-                const data = await geAboutUser(item?.login)
+                const data = await getAboutUser(item?.login)
                 setUserInfo(data)
                 setIsShow(!isShow)
             } catch (error) {
@@ -40,7 +42,7 @@ export const ItemUser = ({ item }: any) => {
         <UserInfoBox>
             <ItemUserInfo onClick={handleShowUser}>{item.login}</ItemUserInfo>
             <AvatarUser src={item.avatar_url} alt="avatar"></AvatarUser>
-            <UserInfo>repositores: {userInfo.public_repos}</UserInfo>
+            <UserInfo>repositories: {userInfo.public_repos}</UserInfo>
             <UserInfo>
                 registrated at{' '}
                 {format(new Date(userInfo.created_at), 'dd.MM.yyyy')}

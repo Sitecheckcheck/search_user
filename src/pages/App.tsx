@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import {
     Filter,
-    Activ,
+    Active,
     Loading,
     Pagination,
     AppStyle,
@@ -27,8 +27,8 @@ export const App = () => {
     const [users, setUsers] = useState<Array<object>>([])
     const [totalPage, setTotalPage] = useState<number>(1)
     const [isLoad, setIsLoad] = useState<boolean>(false)
-    const [activ, setactiv] = useState<boolean>(true)
-    const [order, setOrdrer] = useState<'desc' | 'asc'>('desc')
+    const [active, setActive] = useState<boolean>(true)
+    const [order, setOrder] = useState<'desc' | 'asc'>('desc')
     const [isDisable, setIsDisable] = useState<boolean>(true)
 
     useEffect((): void => {
@@ -54,7 +54,7 @@ export const App = () => {
         }
     }
 
-    const handlePrev = async () => {
+    const handlePrev = async (): Promise<void> => {
         if (page !== 1) {
             setIsLoad(true)
             try {
@@ -70,7 +70,7 @@ export const App = () => {
         }
     }
 
-    const handleNext = async () => {
+    const handleNext = async (): Promise<void> => {
         if (page !== totalPage) {
             setIsLoad(true)
             try {
@@ -86,6 +86,10 @@ export const App = () => {
         }
     }
 
+    const handleCopy = (e: React.ClipboardEvent<HTMLInputElement>) => {
+        console.log('copied')
+    }
+
     return isLoad ? (
         <Loading>Loading...</Loading>
     ) : (
@@ -96,7 +100,8 @@ export const App = () => {
                 type="search"
                 id="site-search"
                 name="q"
-                onChange={(e) => {
+                onCopy={handleCopy}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                     setQuery(e.target.value)
                 }}
             />
@@ -107,7 +112,7 @@ export const App = () => {
                 }
                 onClick={() => {
                     setPage(1)
-                    setactiv(true)
+                    setActive(true)
                     handleSearch()
                 }}
             >
@@ -115,28 +120,28 @@ export const App = () => {
             </button>
             {users.length !== 0 && (
                 <Filter>
-                    <FilterTitle>Repositiries:</FilterTitle>
+                    <FilterTitle>Repositories:</FilterTitle>
                     <FilterButtons>
-                        <Activ
-                            $activ={!activ}
+                        <Active
+                            $active={!active}
                             onClick={() => {
-                                setactiv(false)
-                                setOrdrer('asc')
+                                setActive(false)
+                                setOrder('asc')
                                 handleSearch(page, 'asc')
                             }}
                         >
                             по возрастанию
-                        </Activ>
-                        <Activ
-                            $activ={activ}
+                        </Active>
+                        <Active
+                            $active={active}
                             onClick={() => {
-                                setactiv(true)
-                                setOrdrer('desc')
+                                setActive(true)
+                                setOrder('desc')
                                 handleSearch(page, 'desc')
                             }}
                         >
                             по убыванию
-                        </Activ>
+                        </Active>
                     </FilterButtons>
                 </Filter>
             )}

@@ -1,4 +1,4 @@
-export const geAboutUser = async (login: string) => {
+export const getAboutUser = async (login: string) => {
     let data
     const res = await fetch(`https://api.github.com/users/${login}`)
     if (!res.ok) {
@@ -9,7 +9,11 @@ export const geAboutUser = async (login: string) => {
     return data
 }
 
-export const getUsers = async (query: string, page = 1, order = 'desc') => {
+export const getUsers = async (
+    query: string,
+    page: number = 1,
+    order: string = 'desc',
+) => {
     const res = await fetch(
         `https://api.github.com/search/users?q=${encodeURIComponent(`${query} in:login`)}&page=${page}&sort=repositories&order=${order}`,
     )
