@@ -10,9 +10,9 @@ import {
 } from './itemUser.styled'
 import { geAboutUser } from '../api/api'
 
-export const ItemUser = ({ item }) => {
+export const ItemUser = ({ item }: any) => {
     const [isShow, setIsShow] = useState(false)
-    const [userInfo, setUserInfo] = useState()
+    const [userInfo, setUserInfo] = useState<any>()
     const [isLoad, setIsLoad] = useState(false)
 
     const handleShowUser = async () => {

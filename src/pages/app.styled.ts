@@ -18,8 +18,8 @@ export const FilterButtons = styled.div`
     gap: 5px;
 `
 
-export const Activ = styled.button`
-    border: ${(props) => props.$activ && '2px solid black'};
+export const Activ = styled.button<{ $activ: boolean }>`
+    border: ${({ $activ }) => $activ && '2px solid black'};
 `
 
 export const Loading = styled.h1`

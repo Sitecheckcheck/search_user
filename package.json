@@ -7,12 +7,17 @@
         "@testing-library/jest-dom": "^5.17.0",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
+        "@types/jest": "^29.5.12",
+        "@types/node": "^20.11.19",
+        "@types/react": "^18.2.56",
+        "@types/react-dom": "^18.2.19",
         "date-fns": "^2.30.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.21.3",
         "react-scripts": "^5.0.1",
         "styled-components": "^6.1.8",
+        "typescript": "^5.3.3",
         "web-vitals": "^2.1.4"
     },
     "scripts": {
@@ -44,9 +49,11 @@
         ]
     },
     "devDependencies": {
-        "@babel/eslint-parser": "^7.23.9",
+        "@babel/eslint-parser": "^7.23.10",
         "@babel/preset-env": "^7.23.9",
         "@babel/preset-react": "^7.23.3",
+        "@typescript-eslint/eslint-plugin": "^7.0.1",
+        "@typescript-eslint/parser": "^7.0.1",
         "babel-jest": "^29.7.0",
         "eslint": "^8.56.0",
         "eslint-config-prettier": "^9.1.0",

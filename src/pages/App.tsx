@@ -15,17 +15,23 @@ import { ItemUser } from '../components/ItemUser'
 import { GlobalStyle } from '../globalStyles'
 import { getUsers } from '../api/api'
 
-export const App = () => {
-    const [query, setQuery] = useState('')
-    const [page, setPage] = useState(1)
-    const [users, setUsers] = useState([])
-    const [totalPage, setTotalPage] = useState(1)
-    const [isLoad, setIsLoad] = useState(false)
-    const [activ, setactiv] = useState(true)
-    const [order, setOrdrer] = useState('desc')
-    const [isDisable, setIsDisable] = useState(true)
+interface PageData {
+    incomplete_results: boolean
+    items: Array<object>
+    total_count: number
+}
 
-    useEffect(() => {
+export const App = () => {
+    const [query, setQuery] = useState<string>('')
+    const [page, setPage] = useState<number>(1)
+    const [users, setUsers] = useState<Array<object>>([])
+    const [totalPage, setTotalPage] = useState<number>(1)
+    const [isLoad, setIsLoad] = useState<boolean>(false)
+    const [activ, setactiv] = useState<boolean>(true)
+    const [order, setOrdrer] = useState<'desc' | 'asc'>('desc')
+    const [isDisable, setIsDisable] = useState<boolean>(true)
+
+    useEffect((): void => {
         if (query?.length !== 0) {
             setIsDisable(false)
         } else {
@@ -33,11 +39,10 @@ export const App = () => {
         }
     }, [query])
 
-    const handleSearch = async (page = 1, order = 'desc') => {
+    const handleSearch = async (page = 1, order = 'desc'): Promise<void> => {
         setIsLoad(true)
         try {
-            const data = await getUsers(query, page, order)
-            console.log(data)
+            const data: PageData = await getUsers(query, page, order)
             setUsers(data.items)
             setTotalPage(Math.ceil(data.total_count / 30))
             setIsLoad(false)
@@ -136,9 +141,7 @@ export const App = () => {
                 </Filter>
             )}
             <ul>
-                {users?.map((el) => (
-                    <ItemUser item={el} key={el.id} />
-                ))}
+                {users?.map((el: any) => <ItemUser item={el} key={el['id']} />)}
             </ul>
             {users.length !== 0 && (
                 <Pagination>

@@ -15,10 +15,10 @@
         }
     },
     "rules": {
-        "prettier/prettier": "error",
+        "prettier/prettier": ["error", { "endOfLine": "auto" }],
         "camelcase": ["error"],
         "eqeqeq": ["error", "always"],
         "no-unused-vars": "off"
     },
-    "parser": "@babel/eslint-parser"
+    "parser": "@typescript-eslint/parser"
 }
